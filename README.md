@@ -12,8 +12,9 @@ Will ask for a dump file and will then rebuild the font’s components from the 
 Will look through a font and write out a text file that lists any glyph with a component(s), one glyph per line of the file. On each line, the script writes the glyph name, the width of the glyph, and then each component name and x, y offset for that component. These values are all semicolon separated.
 
 Examples:
-Agrave;587.0;A;0;0;grave;70;0
-Aringacute;587.0;A;0;0;ring;155;139;acute;155;312
+
+    Agrave;587.0;A;0;0;grave;70;0
+    Aringacute;587.0;A;0;0;ring;155;139;acute;155;312
 
 ## dump.py
 The same as the Dump option in fuse.py. But sometimes it’s nice just to be run a script without any options.
