@@ -56,7 +56,7 @@
 
 
 #Imports
-from robofab.world import CurrentFont
+from robofab.world import CurrentFont, RGlyph
 from robofab.pens.digestPen import DigestPointPen
 from robofab.interface.all.dialogs import PutFile, GetFile, Message, OneList, TwoChecks, AskYesNoCancel, ProgressBar
 
@@ -121,12 +121,12 @@ def makeGlyph(glyphList, font, message, mark, saveBackup):
             glyph = font[glyphName]
             
             #Build new glyph for comparisons
-            newGlyph = robofab.objects.objectRF.RGlyph()
-            newGlyphCount = 0
+            newGlyph = RGlyph()
+            count = 0
             while count < len(components):
                 component, x, y = components[count]
                 newGlyph.appendComponent(component, offset=(x,y))
-                newGlyphCount = newGlyphCount+1            
+                count = count + 1
             newGlyph.width = advanceWidth
             
             # Make digest of the new glyph
@@ -210,11 +210,11 @@ def dump(font):
             bar.tick(tick)
             tick = tick+1
             if len(glyph.components) != 0:
-                output = glyph.name + ';' + str(glyph.width)
+                output = glyph.name + ';' + str(int(glyph.width))
                 componentNumber = 0
                 while componentNumber < len(glyph.components):
                     x, y = glyph.components[componentNumber].offset
-                    output = output + ';' + glyph.components[componentNumber].baseGlyph + ';' + str(x) + ';' + str(y)
+                    output = output + ';' + glyph.components[componentNumber].baseGlyph + ';' + str(int(x)) + ';' + str(int(y))
                     componentNumber = componentNumber + 1
                 output = output + '\n'
                 outList.append((glyph.index, output))
@@ -262,28 +262,19 @@ except PendingDeprecationWarning:
         
         def __init__(self):
             self.w = ModalDialog((200, 120), 'Dump/Fuse', okCallback=self.okCallback)
-            self.w.dumpComp = CheckBox((10, 10, 180, 20), 'Dump components', callback=self.dumpCompCallback)
-            self.w.fuseComp = CheckBox((10, 40, 180, 20), 'Fuse components', callback=self.fuseCompCallback, value=True)
-            self.value = 2
+            Selection = NSUserDefaults.standardUserDefaults().integerForKey_("Fuse_Dump_DialogSelection")
+            if Selection < 1 or Selection > 3:
+                Selection = 2
+            self.w.dumpComp = CheckBox((10, 10, 180, 20), 'Dump components', value=(Selection == 1 or Selection == 3))
+            self.w.fuseComp = CheckBox((10, 40, 180, 20), 'Fuse components', value=(Selection == 2 or Selection == 3))
+            self.value = 0
             self.w.open()
         
-        def dumpCompCallback(self, sender):
-            if sender.get() == 1:
-                self.value += 1
-            else:
-                self.value -= 1
-        
-        def fuseCompCallback(self, sender):
-            if sender.get() == 1:
-                self.value += 2
-            else:
-                self.value -= 2
-        
         def okCallback(self, sender):
-            return self.value
+            self.value = self.w.dumpComp.get() + (self.w.fuseComp.get() * 2)
     
     do = TwoChecksDK().value
-
+NSUserDefaults.standardUserDefaults().setInteger_forKey_(do, "Fuse_Dump_DialogSelection")
 if do == 1:
     dump(font)
 if do == 2:
