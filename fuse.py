@@ -121,12 +121,12 @@ def makeGlyph(glyphList, font, message, mark, saveBackup):
             glyph = font[glyphName]
             
             #Build new glyph for comparisons
-            newGlyphCount = 0
             newGlyph = RGlyph()
+            count = 0
             while count < len(components):
                 component, x, y = components[count]
                 newGlyph.appendComponent(component, offset=(x,y))
-                newGlyphCount = newGlyphCount+1            
+                count = count + 1
             newGlyph.width = advanceWidth
             
             # Make digest of the new glyph
