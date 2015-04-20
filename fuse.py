@@ -210,11 +210,11 @@ def dump(font):
             bar.tick(tick)
             tick = tick+1
             if len(glyph.components) != 0:
-                output = glyph.name + ';' + str(int(glyph.width))
+                output = glyph.name + ';' + str(glyph.width)
                 componentNumber = 0
                 while componentNumber < len(glyph.components):
                     x, y = glyph.components[componentNumber].offset
-                    output = output + ';' + glyph.components[componentNumber].baseGlyph + ';' + str(int(x)) + ';' + str(int(y))
+                    output = output + ';' + glyph.components[componentNumber].baseGlyph + ';' + str(x) + ';' + str(y)
                     componentNumber = componentNumber + 1
                 output = output + '\n'
                 outList.append((glyph.index, output))
