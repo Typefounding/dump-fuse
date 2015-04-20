@@ -56,7 +56,7 @@
 
 
 #Imports
-from robofab.world import CurrentFont
+from robofab.world import CurrentFont, RGlyph
 from robofab.pens.digestPen import DigestPointPen
 from robofab.interface.all.dialogs import PutFile, GetFile, Message, OneList, TwoChecks, AskYesNoCancel, ProgressBar
 
@@ -121,8 +121,8 @@ def makeGlyph(glyphList, font, message, mark, saveBackup):
             glyph = font[glyphName]
             
             #Build new glyph for comparisons
-            newGlyph = robofab.objects.objectRF.RGlyph()
             newGlyphCount = 0
+            newGlyph = RGlyph()
             while count < len(components):
                 component, x, y = components[count]
                 newGlyph.appendComponent(component, offset=(x,y))
