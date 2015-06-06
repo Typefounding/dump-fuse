@@ -254,8 +254,9 @@ def fuse(font):
 #Script
 font = CurrentFont()
 try:
-    do = TwoChecks('Dump components', 'Fuse components', 'Dump/Fuse')
+    do = TwoChecks('Dump components', 'Fuse components')
 except PendingDeprecationWarning:
+    print "Deprecated"
     from dialogKit import ModalDialog, CheckBox
     
     class TwoChecksDK(object):
@@ -280,6 +281,7 @@ except PendingDeprecationWarning:
                 self.value -= 2
         
         def okCallback(self, sender):
+            print self.value
             return self.value
     
     do = TwoChecksDK().value
