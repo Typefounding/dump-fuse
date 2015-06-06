@@ -262,19 +262,28 @@ except PendingDeprecationWarning:
         
         def __init__(self):
             self.w = ModalDialog((200, 120), 'Dump/Fuse', okCallback=self.okCallback)
-            Selection = NSUserDefaults.standardUserDefaults().integerForKey_("Fuse_Dump_DialogSelection")
-            if Selection < 1 or Selection > 3:
-                Selection = 2
-            self.w.dumpComp = CheckBox((10, 10, 180, 20), 'Dump components', value=(Selection == 1 or Selection == 3))
-            self.w.fuseComp = CheckBox((10, 40, 180, 20), 'Fuse components', value=(Selection == 2 or Selection == 3))
-            self.value = 0
+            self.w.dumpComp = CheckBox((10, 10, 180, 20), 'Dump components', callback=self.dumpCompCallback)
+            self.w.fuseComp = CheckBox((10, 40, 180, 20), 'Fuse components', callback=self.fuseCompCallback, value=True)
+            self.value = 2
             self.w.open()
         
+        def dumpCompCallback(self, sender):
+            if sender.get() == 1:
+                self.value += 1
+            else:
+                self.value -= 1
+        
+        def fuseCompCallback(self, sender):
+            if sender.get() == 1:
+                self.value += 2
+            else:
+                self.value -= 2
+        
         def okCallback(self, sender):
-            self.value = self.w.dumpComp.get() + (self.w.fuseComp.get() * 2)
+            return self.value
     
     do = TwoChecksDK().value
-NSUserDefaults.standardUserDefaults().setInteger_forKey_(do, "Fuse_Dump_DialogSelection")
+
 if do == 1:
     dump(font)
 if do == 2:
