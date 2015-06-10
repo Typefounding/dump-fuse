@@ -73,7 +73,7 @@ def getDataFile(message):
     importedGlyphList = []
     
     #Get file
-    filePath = GetFile(message)
+    filePath = GetFile()
     
     if filePath is None:
         return None
@@ -121,6 +121,7 @@ def makeGlyph(glyphList, font, message, mark, saveBackup):
             glyph = font[glyphName]
             
             #Build new glyph for comparisons
+<<<<<<< Updated upstream
             newGlyph = RGlyph()
             count = 0
             while count < len(components):
@@ -128,6 +129,9 @@ def makeGlyph(glyphList, font, message, mark, saveBackup):
                 newGlyph.appendComponent(component, offset=(x,y))
                 count = count + 1
             newGlyph.width = advanceWidth
+=======
+            newGlyph = glyph.copy()
+>>>>>>> Stashed changes
             
             # Make digest of the new glyph
             pointPen = DigestPointPen()
@@ -198,8 +202,8 @@ def checkGlyphs(font, glyphList):
     
 def dump(font):
     # Give the user a default name to save
-    defaultName = font.info.fontName + '.txt'
-    filePath = PutFile('Save dump file', defaultName)
+    defaultName = font.info.fontName + '.csv'
+    filePath = PutFile(fileName=defaultName)
 
     if filePath is not None:
         tickCount = len(font)
@@ -254,7 +258,11 @@ def fuse(font):
 #Script
 font = CurrentFont()
 try:
+<<<<<<< Updated upstream
     do = TwoChecks('Dump components', 'Fuse components')
+=======
+    do = TwoChecks('Dump components', 'Fuse components', value1=0, value2=0)
+>>>>>>> Stashed changes
 except PendingDeprecationWarning:
     print "Deprecated"
     from dialogKit import ModalDialog, CheckBox
