@@ -45,8 +45,7 @@ from robofab.interface.all.dialogs import PutFile, Message, ProgressBar
 
 #Script
 font = CurrentFont()
-defaultName = font.info.fontName + '.txt'
-filePath = PutFile('Save dump file', defaultName)
+filePath = PutFile()
 file = open(filePath, 'w')
 tickCount = len(font)
 bar = ProgressBar('Writing dump file', tickCount)
